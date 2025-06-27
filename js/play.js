@@ -2,20 +2,54 @@
         name = name.replace(/[\[\]]/g, "\\$&");
         var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
             results = regex.exec(window.location.href);
-        if (!results) return null;
+    if (results) {
         if (!results[2]) return '';
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
+
+    // Tambahan: jika format hash-nya seperti #rbulltv dan parameternya 'id'
+    var hash = window.location.hash.substring(1); // buang tanda #
+    if (!hash.includes('=') && name === 'id' && hash) {
+        return decodeURIComponent(hash);
+    }
+
+    return null;
+}
+
     var ConfiguracionCanales = {
-        "rbulltv": {
+        
+		"tvri": {
+            url: "https://streaming.indihometv.com/atm/DASH/TVRI/manifest.mpd",
+        },
+		
+		"antv": {
+            url: "https://op-group1-swiftservehd-1.dens.tv/s/s07/index.m3u8?app_type=web&userid=lite&chname=antv",
+        },
+		
+		"tvone": {
+            url: "https://op-group1-swiftservehd-1.dens.tv/h/h224/index.m3u8",
+        },
+
+		"indosiar": {
+            url: "https://op-group1-swiftservehd-1.dens.tv/h/h235/index.m3u8?app_type=web&userid=lite&chname=indosiar",
+        },
+
+		"sctv": {
+            url: "https://op-group1-swiftservehd-1.dens.tv/h/h217/index.m3u",
+        },
+
+		"rbulltv": {
             url: "https://dms.redbull.tv/v5/destination/rbtv/linear-borb/personal_computer/http/id/en/playlist.m3u8",
         },
         "spotv": {
-            url: "https://cempedak-cdn-fly.mncnow.id/live/eds/SPOTV-HD/sa_dash_vmx/SPOTV-HD.mpd",
-            k1: "57d2ac9210cfbca3596cc679a01c8b29",
-            k2: "d5e35c0f39c76adf24853d7ea18c71e7"
+            url: "https://fta4-cdn-flr.visionplus.id/out/v1/997ce8767b604fae9fce05379b3b8b3a/index.mpd",
+            k1: "d386001215594043a8995db796ad9e9c",
+            k2: "3404792cb4c804902acdc6ca65c1a298"
         }
+		
+		
+		
     };
 
     var id = getParameterByName('id');
