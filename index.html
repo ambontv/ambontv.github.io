@@ -2,8 +2,8 @@
 <html lang="id" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AmbonTV</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>IPTV</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         /* Mencegah scroll pada halaman utama */
@@ -168,62 +168,58 @@
 </head>
 <body>
 
-<div class="player-wrapper">
-    <div class="sidebar">
-        <div class="sidebar-header">
-            <select class="form-select" id="categorySelect" onchange="filterCategory()">
-                </select>
+    <div class="player-wrapper">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <select id="categorySelect" class="form-select custom-dropdown-btn" onchange="renderChannels(this.value)"></select>
+            </div>
+            <div class="sidebar-body" id="channelContainer"></div>
         </div>
-        <div class="sidebar-body" id="channelContainer"></div>
+
+        <div class="video-area">
+            <div class="video-header-overlay d-none d-sm-block">
+                <span class="header-text" id="currentServerText">NASIONAL &nbsp;&nbsp; TVRI</span>
+            </div>
+            <iframe id="videoPlayer" src="" allowfullscreen></iframe>
+        </div>
     </div>
-    <div class="video-area">
-        <iframe id="videoPlayer" src="" allowfullscreen></iframe>
-    </div>
-</div>
 
-<script>
-    async function init() {
-        const res = await fetch('https://canal86.my.id/iptv/');
-        const data = await res.json();
-        const container = document.getElementById('channelContainer');
-        const select = document.getElementById('categorySelect');
+    <script>
+        let channelData = {};
 
-        Object.keys(data).forEach((cat, index) => {
-            // Isi Dropdown
-            let opt = document.createElement('option');
-            opt.value = cat;
-            opt.innerText = cat;
-            select.appendChild(opt);
+        async function initApp() {
+            const response = await fetch('https://canal86.my.id/iptv/');
+            channelData = await response.json();
 
-            // Isi List Channel
-            let listDiv = document.createElement('div');
-            listDiv.className = `channel-list ${index !== 0 ? 'd-none' : ''}`;
-            listDiv.id = `list-${cat}`;
-            
-            data[cat].forEach(ch => {
-                listDiv.innerHTML += `
-                    <button class="server-btn" onclick="play('${ch.id}', this)">
-                        <span>${ch.name}</span>
-                        ${ch.logo ? `<img src="${ch.logo}" class="channel-logo">` : ''}
-                    </button>`;
+            const select = document.getElementById('categorySelect');
+            Object.keys(channelData).forEach(cat => {
+                let opt = document.createElement('option');
+                opt.value = cat; opt.innerText = cat;
+                select.appendChild(opt);
             });
-            container.appendChild(listDiv);
-        });
-    }
+            renderChannels(Object.keys(channelData)[0]);
+        }
 
-    function filterCategory() {
-        let cat = document.getElementById('categorySelect').value;
-        document.querySelectorAll('.channel-list').forEach(l => l.classList.add('d-none'));
-        document.getElementById(`list-${cat}`).classList.remove('d-none');
-    }
+        function renderChannels(category) {
+            const container = document.getElementById('channelContainer');
+            container.innerHTML = '';
+            
+            channelData[category].forEach((ch, index) => {
+                let btn = document.createElement('button');
+                btn.className = `server-btn ${index === 0 ? 'active' : ''}`;
+                btn.innerHTML = `<span>${ch.name}</span><img src="${ch.logo}" class="channel-logo">`;
+                btn.onclick = () => {
+                    document.getElementById('videoPlayer').src = ch.url;
+                    document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    document.getElementById('currentServerText').innerHTML = `${category} &nbsp;&nbsp; ${ch.name}`;
+                };
+                container.appendChild(btn);
+                if(index === 0) document.getElementById('videoPlayer').src = ch.url;
+            });
+        }
 
-    function play(id, btn) {
-        document.getElementById('videoPlayer').src = `/player/?id=${id}`;
-        document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-    }
-
-    init();
-</script>
+        initApp();
+    </script>
 </body>
 </html>
