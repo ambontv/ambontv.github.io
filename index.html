@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="id" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AmbonTV</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Mencegah scroll pada halaman utama */
+        body, html {
+            margin: 0; padding: 0;
+            width: 100%; height: 100%;
+            background-color: #000;
+            overflow: hidden; 
+        }
+
+        .player-wrapper {
+            display: flex;
+            width: 100%; height: 100dvh; 
+            flex-direction: row; 
+        }
+
+        /* --- AREA SIDEBAR KESELURUHAN --- */
+        .sidebar {
+            width: 250px;
+            height: 100%;
+            flex-shrink: 0;
+            background-color: #0f1115;
+            border-right: 1px solid #1f2229;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 1. KEPALA SIDEBAR (Tetap / Tidak ikut scroll) */
+        .sidebar-header {
+            padding: 15px 15px 10px 15px;
+            background-color: #0f1115;
+            border-bottom: 1px solid #1f2229;
+            flex-shrink: 0; 
+            z-index: 5;
+        }
+
+        /* 2. BADAN SIDEBAR (Hanya bagian ini yang scroll) */
+        .sidebar-body {
+            padding: 10px 15px 15px 15px;
+            flex-grow: 1; 
+            overflow-y: auto; 
+        }
+
+        /* Custom Dropdown Button */
+        .custom-dropdown-btn {
+            background-color: #1c1f26;
+            color: #00d2ff;
+            border: 1px solid #2a2d34;
+            font-size: 0.85rem;
+            font-weight: bold;
+            padding: 12px 15px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .custom-dropdown-btn:hover, .custom-dropdown-btn:focus {
+            background-color: #242830;
+            color: #00d2ff;
+            border-color: #00d2ff;
+            box-shadow: none;
+        }
+
+        /* Item di dalam Dropdown */
+        .dropdown-item {
+            font-size: 0.85rem;
+            padding: 10px 15px;
+            color: #8a8d93;
+        }
+        .dropdown-item.active, .dropdown-item:active {
+            background-color: #00d2ff;
+            color: #000;
+            font-weight: bold;
+        }
+
+        /* --- STYLING TOMBOL CHANNEL DENGAN LOGO --- */
+        .server-btn {
+            background-color: transparent;
+            color: #8a8d93;
+            border: 1px solid #2a2d34;
+            font-size: 0.85rem;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            padding: 8px 15px; /* Sedikit disesuaikan agar logo pas */
+            width: 100%;
+            transition: all 0.2s ease;
+            /* Flexbox untuk mengatur teks di kiri, logo di kanan */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .server-btn:hover { background-color: #1c1f26; color: #fff; }
+        .server-btn.active { background-color: #00d2ff; color: #000; font-weight: bold; border-color: #00d2ff; }
+
+        /* Pengaturan Gambar Logo */
+        .channel-logo {
+            height: 18px; /* Tinggi optimal untuk logo */
+            max-width: 50px; 
+            object-fit: contain; 
+            opacity: 0.5; /* Meredup saat tidak dipilih */
+            transition: opacity 0.2s ease;
+            filter: grayscale(100%) brightness(200%); /* Membuat logo bawaan menjadi monokrom terang */
+        }
+        
+        /* Logo menyala penuh dan berwarna asli saat aktif/dihover */
+        .server-btn:hover .channel-logo,
+        .server-btn.active .channel-logo {
+            opacity: 1; 
+            filter: none; 
+        }
+
+        /* --- AREA VIDEO --- */
+        .video-area {
+            flex-grow: 1;
+            height: 100%;
+            position: relative; 
+            background-color: #000;
+        }
+
+        #videoPlayer {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border: none;
+        }
+
+        /* Teks overlay di atas video */
+        .video-header-overlay {
+            position: absolute;
+            top: 0; right: 0; left: 0;
+            padding: 10px 20px;
+            text-align: right;
+            pointer-events: none;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+            z-index: 10;
+        }
+        .header-text {
+            color: #fff;
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+
+        /* --- RESPONSIVE UNTUK HP --- */
+        @media (max-width: 767.98px) {
+            .player-wrapper { flex-direction: column; }
+            .video-area {
+                width: 100%; height: auto;
+                aspect-ratio: 16 / 9;
+                flex-grow: 0; flex-shrink: 0;
+                order: 1; 
+            }
+            .sidebar {
+                width: 100%; height: auto;
+                flex-grow: 1; order: 2; 
+                border-right: none;
+                border-top: 1px solid #1f2229;
+            }
+            .header-text { font-size: 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="player-wrapper">
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <select class="form-select" id="categorySelect" onchange="filterCategory()">
+                </select>
+        </div>
+        <div class="sidebar-body" id="channelContainer"></div>
+    </div>
+    <div class="video-area">
+        <iframe id="videoPlayer" src="" allowfullscreen></iframe>
+    </div>
+</div>
+
+<script>
+    async function init() {
+        const res = await fetch('https://canal86.my.id/iptv/list.json');
+        const data = await res.json();
+        const container = document.getElementById('channelContainer');
+        const select = document.getElementById('categorySelect');
+
+        Object.keys(data).forEach((cat, index) => {
+            // Isi Dropdown
+            let opt = document.createElement('option');
+            opt.value = cat;
+            opt.innerText = cat;
+            select.appendChild(opt);
+
+            // Isi List Channel
+            let listDiv = document.createElement('div');
+            listDiv.className = `channel-list ${index !== 0 ? 'd-none' : ''}`;
+            listDiv.id = `list-${cat}`;
+            
+            data[cat].forEach(ch => {
+                listDiv.innerHTML += `
+                    <button class="server-btn" onclick="play('${ch.id}', this)">
+                        <span>${ch.name}</span>
+                        ${ch.logo ? `<img src="${ch.logo}" class="channel-logo">` : ''}
+                    </button>`;
+            });
+            container.appendChild(listDiv);
+        });
+    }
+
+    function filterCategory() {
+        let cat = document.getElementById('categorySelect').value;
+        document.querySelectorAll('.channel-list').forEach(l => l.classList.add('d-none'));
+        document.getElementById(`list-${cat}`).classList.remove('d-none');
+    }
+
+    function play(id, btn) {
+        document.getElementById('videoPlayer').src = `/player/?id=${id}`;
+        document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    }
+
+    init();
+</script>
+</body>
+</html>
