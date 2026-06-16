@@ -186,41 +186,52 @@
     </div>
 
     <script>
-        let channelData = {};
+let channelData = {};
 
-        async function initApp() {
-            const response = await fetch('https://canal86.my.id/iptv/');
-            channelData = await response.json();
+async function initApp() {
+    // Gunakan fetch dengan opsi referrerPolicy di sini
+    const response = await fetch('https://canal86.my.id/iptv/', {
+        method: 'GET',
+        referrerPolicy: 'no-referrer-when-downgrade'
+    });
+    
+    channelData = await response.json();
 
-            const select = document.getElementById('categorySelect');
-            Object.keys(channelData).forEach(cat => {
-                let opt = document.createElement('option');
-                opt.value = cat; opt.innerText = cat;
-                select.appendChild(opt);
-            });
-            renderChannels(Object.keys(channelData)[0]);
-        }
+    const select = document.getElementById('categorySelect');
+    Object.keys(channelData).forEach(cat => {
+        let opt = document.createElement('option');
+        opt.value = cat; opt.innerText = cat;
+        select.appendChild(opt);
+    });
+    
+    renderChannels(Object.keys(channelData)[0]);
+}
 
-        function renderChannels(category) {
-            const container = document.getElementById('channelContainer');
-            container.innerHTML = '';
+function renderChannels(category) {
+    const container = document.getElementById('channelContainer');
+    container.innerHTML = '';
+    
+    channelData[category].forEach((ch, index) => {
+        let btn = document.createElement('button');
+        btn.className = `server-btn ${index === 0 ? 'active' : ''}`;
+        btn.innerHTML = `<span>${ch.name}</span><img src="${ch.logo}" class="channel-logo">`;
+        
+        btn.onclick = () => {
+            // Jika Anda sudah menggunakan Iframe, ganti 'videoPlayer' menjadi id iframe Anda
+            document.getElementById('videoPlayer').src = ch.url;
             
-            channelData[category].forEach((ch, index) => {
-                let btn = document.createElement('button');
-                btn.className = `server-btn ${index === 0 ? 'active' : ''}`;
-                btn.innerHTML = `<span>${ch.name}</span><img src="${ch.logo}" class="channel-logo">`;
-                btn.onclick = () => {
-                    document.getElementById('videoPlayer').src = ch.url;
-                    document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    document.getElementById('currentServerText').innerHTML = `${category} &nbsp;&nbsp; ${ch.name}`;
-                };
-                container.appendChild(btn);
-                if(index === 0) document.getElementById('videoPlayer').src = ch.url;
-            });
-        }
+            document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('currentServerText').innerHTML = `${category} &nbsp;&nbsp; ${ch.name}`;
+        };
+        container.appendChild(btn);
+        
+        if(index === 0) document.getElementById('videoPlayer').src = ch.url;
+    });
+}
 
-        initApp();
+// Panggil fungsi initApp
+initApp().catch(error => console.error('Error saat mengambil data:', error));
     </script>
 </body>
 </html>
