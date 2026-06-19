@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Sedang Dalam Perbaikan / Under Maintenance</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Reset margin dan padding default */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Pengaturan latar belakang dan posisi ke tengah (Full Screen) */
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f1f1f1;
+            color: #000;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Kontainer utama */
+        .container {
+            max-width: 800px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Gaya Teks "MOHON MAAF" */
+        .subtitle {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            margin-bottom: 5px;
+        }
+        
+        .en-subtitle {
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        /* Gaya Teks "WEBSITE SEDANG DALAM PERBAIKAN" */
+        .title {
+            font-size: 4.5rem; 
+            font-weight: 900;
+            line-height: 1;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            font-family: 'Arial Black', Impact, sans-serif; 
+            letter-spacing: -1px;
+        }
+
+        /* Gaya Teks "UNDER MAINTENANCE" */
+        .en-title {
+            font-size: 2rem;
+            font-weight: 900;
+            line-height: 1.2;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+            font-family: 'Arial Black', Impact, sans-serif; 
+            color: #555;
+        }
+
+        /* Kontainer untuk gambar ilustrasi */
+        .image-container {
+            margin-bottom: 30px;
+        }
+
+        /* SVG Ilustrasi Pembatas Jalan */
+        .barricade-svg {
+            width: 250px;
+            height: auto;
+            filter: drop-shadow(0px 10px 5px rgba(0,0,0,0.1));
+        }
+
+        /* Teks informasi link */
+        .info-text {
+            font-size: 1.1rem;
+            margin-bottom: 2px;
+            font-weight: 500;
+        }
+        
+        .en-info {
+            font-size: 0.95rem;
+            color: #555;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        /* Gaya link URL */
+        .link-url {
+            font-size: 1.2rem;
+            color: #0047b3; /* Biru gelap */
+            text-decoration: none;
+            font-style: italic;
+            word-break: break-all;
+            display: inline-block;
+            margin-bottom: 50px;
+        }
+
+        .link-url:hover {
+            text-decoration: underline;
+        }
+
+        /* Pengaturan Footer (Garis dan Ikon) */
+        .footer {
+            width: 100%;
+            max-width: 750px;
+            margin-top: auto; 
+        }
+
+        .footer hr {
+            border: none;
+            border-top: 2px solid #000;
+            margin-bottom: 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.95rem;
+            gap: 10px;
+            font-weight: 500;
+        }
+
+        .contact-item i {
+            font-size: 1.3rem;
+        }
+
+        /* RESPONSIVE DESIGN UNTUK HP */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 3rem;
+            }
+            .en-title {
+                font-size: 1.5rem;
+                margin-bottom: 30px;
+            }
+            .barricade-svg {
+                width: 180px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .title {
+                font-size: 2.2rem;
+            }
+            .en-title {
+                font-size: 1.1rem;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="subtitle">MOHON MAAF</div>
+        <div class="en-subtitle">WE APOLOGIZE</div>
+        
+        <h1 class="title">WEBSITE SEDANG<br>DALAM PERBAIKAN</h1>
+        <h2 class="en-title">WEBSITE IS UNDER MAINTENANCE</h2>
+
+        <div class="image-container">
+            <svg viewBox="0 0 200 160" class="barricade-svg">
+                <path d="M 40 40 L 20 140 M 160 40 L 180 140 M 50 40 L 40 130 M 150 40 L 160 130" stroke="#dcdcdc" stroke-width="12" stroke-linecap="round"/>
+                <path d="M 40 40 L 20 140 M 160 40 L 180 140 M 50 40 L 40 130 M 150 40 L 160 130" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+                
+                <rect x="10" y="80" width="180" height="35" rx="8" fill="#ff6a00" stroke="#000" stroke-width="4"/>
+                <path d="M 40 82 L 70 82 L 50 113 L 20 113 Z" fill="#fff"/>
+                <path d="M 100 82 L 130 82 L 110 113 L 80 113 Z" fill="#fff"/>
+                <path d="M 160 82 L 188 82 L 170 113 L 140 113 Z" fill="#fff"/>
+
+                <rect x="25" y="25" width="150" height="35" rx="8" fill="#ff6a00" stroke="#000" stroke-width="4"/>
+                <path d="M 50 27 L 80 27 L 60 58 L 30 58 Z" fill="#fff"/>
+                <path d="M 110 27 L 140 27 L 120 58 L 90 58 Z" fill="#fff"/>
+            </svg>
+        </div>
+
+        <p class="info-text">untuk sementara website dapat melalui URL :</p>
+        <p class="en-info">temporarily, the website can be accessed via URL :</p>
+        <a href="https://ambontv.github.io" class="link-url">https://ambontv.github.io</a>
+
+        <div class="footer">
+            <hr>
+            <div class="footer-content">
+                <div class="contact-item">
+                    <i class="fab fa-instagram"></i>
+                    <span>@ambontv</span>
+                </div>
+                <div class="contact-item">
+                    <i class="far fa-envelope"></i>
+                    <span>ambontv@my.id</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-globe"></i>
+                    <span>www.ambontv.my.id</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
