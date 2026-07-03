@@ -17,9 +17,9 @@
 
         :root {
             --bg-color: #080808;
-            --brand-red: #e61c1c;
-            --brand-red-hover: #ff3333;
-            --glow-color: rgba(230, 28, 28, 0.5);
+            --brand-blue: #00ABD1;
+            --brand-blue-hover: #00c2ed;
+            --glow-color: rgba(0, 171, 209, 0.5);
         }
 
         /* 
@@ -42,7 +42,8 @@
             height: 100%;
             display: flex;
             flex-direction: column;
-            background: radial-gradient(circle at 50% 35%, rgba(100, 15, 15, 0.9) 0%, var(--bg-color) 70%);
+            /* Mengganti rgba merah dengan biru tua untuk efek cahaya di background */
+            background: radial-gradient(circle at 50% 35%, rgba(0, 60, 80, 0.9) 0%, var(--bg-color) 70%);
             position: relative;
         }
 
@@ -79,7 +80,7 @@
         }
 
         h1 .brand-text {
-            color: var(--brand-red);
+            color: var(--brand-blue);
         }
 
         p.subtitle {
@@ -94,7 +95,8 @@
            TOMBOL DOWNLOAD
         ========================================= */
         .btn-primary {
-            background: linear-gradient(135deg, var(--brand-red), #b30000);
+            /* Warna gradasi biru disesuaikan */
+            background: linear-gradient(135deg, var(--brand-blue), #007a99);
             color: white;
             border: none;
             padding: clamp(10px, 1.5vh, 18px) clamp(25px, 4vw, 45px);
@@ -110,8 +112,9 @@
 
         .btn-primary:hover {
             transform: scale(1.05) translateY(-2px);
-            background: linear-gradient(135deg, var(--brand-red-hover), #e60000);
-            box-shadow: 0 12px 35px rgba(255, 51, 51, 0.7);
+            background: linear-gradient(135deg, var(--brand-blue-hover), #008eb0);
+            /* Bayangan efek glow biru muda */
+            box-shadow: 0 12px 35px rgba(0, 194, 237, 0.7);
         }
 
         /* =========================================
@@ -177,18 +180,15 @@
             font-weight: bold;
         }
 
-
-.device img {
-    position: absolute; /* Memaksa gambar menempel di ujung layar */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Mencegah gambar menjadi gepeng */
-    z-index: 10;
-}
-
-
+        .device img {
+            position: absolute; /* Memaksa gambar menempel di ujung layar */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Mencegah gambar menjadi gepeng */
+            z-index: 10;
+        }
 
         /* 
            Ukuran perangkat kini berdasarkan vh (Tinggi Layar).
@@ -259,14 +259,14 @@
         <!-- Bagian Bawah: Area Rak dan Perangkat -->
         <div class="stage-area">
 
-<div class="devices-wrapper">
-    <div class="device tablet">
-        <img src="https://raw.githubusercontent.com/ambontv/ambontv.github.io/refs/heads/main/img/amqtvbanner.png" alt="Poster Tablet"> 
-    </div>
-    <div class="device phone">
-        <img src="https://raw.githubusercontent.com/ambontv/ambontv.github.io/refs/heads/main/img/amqtvbanner.png" alt="Poster HP">
-    </div>
-</div>
+            <div class="devices-wrapper">
+                <div class="device tablet">
+                    <img src="https://raw.githubusercontent.com/ambontv/ambontv.github.io/refs/heads/main/img/amqtvbanner.png" alt="Poster Tablet"> 
+                </div>
+                <div class="device phone">
+                    <img src="https://raw.githubusercontent.com/ambontv/ambontv.github.io/refs/heads/main/img/amqtvbanner.png" alt="Poster HP">
+                </div>
+            </div>
 
             <div class="shelf"></div>
         </div>
@@ -288,14 +288,15 @@
                 content.classList.add('visible');
             }, 100);
 
-btnDownload.addEventListener('click', () => {
-    // Membuka link aplikasi di tab/jendela baru
-    window.open("https://cdn.jsdelivr.net/gh/ambontv/ambontv.github.io@main/apps/ambontv_apps.apk", "_blank"); 
-    
-    // ATAU, jika Anda ingin link terbuka di halaman yang sama (tidak membuka tab baru), 
-    // hapus baris window.open di atas dan gunakan kode di bawah ini:
-    // window.location.href = "https://play.google.com/store/apps/details?id=com.telkomsel.maxstream";
-});
+            const btnDownload = document.getElementById('btnDownload');
+            btnDownload.addEventListener('click', () => {
+                // Membuka link aplikasi di tab/jendela baru
+                window.open("https://cdn.jsdelivr.net/gh/ambontv/ambontv.github.io@main/apps/ambontv_apps.apk", "_blank"); 
+                
+                // ATAU, jika Anda ingin link terbuka di halaman yang sama (tidak membuka tab baru), 
+                // hapus baris window.open di atas dan gunakan kode di bawah ini:
+                // window.location.href = "https://play.google.com/store/apps/details?id=com.telkomsel.maxstream";
+            });
         });
     </script>
 </body>
