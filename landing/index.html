@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AmbonTV - Hiburan Tanpa Batas</title>
+    <style>
+        /* =========================================
+           CSS RESET & GLOBAL VARIABLES
+        ========================================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        :root {
+            --bg-color: #080808;
+            --brand-red: #e61c1c;
+            --brand-red-hover: #ff3333;
+            --glow-color: rgba(230, 28, 28, 0.5);
+        }
+
+        /* 
+           KUNCI TANPA SCROLL: 
+           overflow: hidden memastikan tidak ada halaman yang bisa digeser 
+        */
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden; 
+            background-color: var(--bg-color);
+            color: #ffffff;
+        }
+
+        /* =========================================
+           MAIN LAYOUT (FLEXBOX 100% LAYAR)
+        ========================================= */
+        .hero-section {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background: radial-gradient(circle at 50% 35%, rgba(100, 15, 15, 0.9) 0%, var(--bg-color) 70%);
+            position: relative;
+        }
+
+        /* =========================================
+           AREA TEKS (BAGIAN ATAS)
+        ========================================= */
+        .text-content {
+            flex: 1; /* Otomatis mengisi sisa ruang atas */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end; /* Merapatkan teks ke arah bawah (tengah layar) */
+            text-align: center;
+            padding: 0 5vw;
+            padding-bottom: 3vh; /* Jarak antara tombol dan perangkat */
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .text-content.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Ukuran font menggunakan vh & vw agar menyesuaikan resolusi */
+        h1 {
+            font-size: clamp(1.8rem, 4vh + 1vw, 3.5rem); 
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 1.5vh;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.6);
+        }
+
+        h1 .brand-text {
+            color: var(--brand-red);
+        }
+
+        p.subtitle {
+            font-size: clamp(0.85rem, 1.5vh + 0.5vw, 1.1rem);
+            line-height: 1.5;
+            margin-bottom: 2.5vh;
+            color: #e0e0e0;
+            max-width: 700px;
+        }
+
+        /* =========================================
+           TOMBOL DOWNLOAD
+        ========================================= */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--brand-red), #b30000);
+            color: white;
+            border: none;
+            padding: clamp(10px, 1.5vh, 18px) clamp(25px, 4vw, 45px);
+            font-size: clamp(0.9rem, 1.5vh + 0.5vw, 1.2rem);
+            font-weight: 700;
+            border-radius: 35px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px var(--glow-color);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05) translateY(-2px);
+            background: linear-gradient(135deg, var(--brand-red-hover), #e60000);
+            box-shadow: 0 12px 35px rgba(255, 51, 51, 0.7);
+        }
+
+        /* =========================================
+           AREA PERANGKAT (BAGIAN BAWAH)
+        ========================================= */
+        .stage-area {
+            height: 40vh; /* Memakan 40% dari tinggi layar bagian bawah */
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            width: 100%;
+        }
+
+        /* Meja / Rak di latar belakang */
+        .shelf {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 18vh;
+            background: linear-gradient(to bottom, #151515 0%, #050505 100%);
+            border-top: 2px solid #2a2a2a;
+            box-shadow: inset 0 10px 30px rgba(0,0,0,0.8);
+            z-index: 1;
+        }
+
+        /* Wadah perangkat */
+        .devices-wrapper {
+            position: relative;
+            z-index: 5;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            margin-bottom: 6vh; /* Membuat perangkat terlihat diletakkan di atas meja */
+        }
+
+        /* Kotak dasar perangkat */
+        .device {
+            background-color: #111;
+            border: clamp(2px, 0.5vh, 5px) solid #222;
+            background-image: linear-gradient(180deg, #1a1a1a 0%, #000 100%);
+            box-shadow: -10px 15px 30px rgba(0,0,0,0.9), 0 0 15px var(--glow-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: transform 0.3s ease;
+            
+            /* TAMBAHKAN 2 BARIS INI: */
+            overflow: hidden; 
+            position: relative;
+        }
+
+        .device:hover {
+            transform: translateY(-5px);
+        }
+
+        .device::after {
+            content: "Poster UI";
+            color: #666;
+            font-size: clamp(0.7rem, 1.5vh, 0.9rem);
+            font-weight: bold;
+        }
+
+
+.device img {
+    position: absolute; /* Memaksa gambar menempel di ujung layar */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Mencegah gambar menjadi gepeng */
+    z-index: 10;
+}
+
+
+
+        /* 
+           Ukuran perangkat kini berdasarkan vh (Tinggi Layar).
+           Ini mencegah perangkat menjadi terlalu besar hingga menyebabkan scroll.
+        */
+        .tablet {
+            height: 32vh; 
+            max-height: 340px;
+            aspect-ratio: 3 / 4;
+            border-radius: clamp(8px, 1.5vh, 16px);
+            z-index: 1; /* Pastikan tablet ada di belakang */
+        }
+        
+        .phone {
+            height: 20vh;
+            max-height: 220px;
+            aspect-ratio: 9 / 19;
+            border-radius: clamp(10px, 2vh, 20px);
+            margin-left: -15%; 
+            margin-bottom: -1.5vh; 
+            z-index: 5; /* Angka lebih besar membuat HP maju ke depan */
+        }
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+        .footer-text {
+            position: absolute;
+            bottom: 2vh;
+            width: 100%;
+            text-align: center;
+            font-size: clamp(0.65rem, 1.2vh + 0.3vw, 0.85rem);
+            color: #888;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        /* =========================================
+           RESPONSIVE MOBILE KHUSUS (LAYAR SANGAT KECIL)
+        ========================================= */
+        @media (max-width: 480px) {
+            .footer-text {
+                flex-direction: column;
+                gap: 2px;
+                bottom: 1vh;
+            }
+            .separator {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero-section">
+        
+        <!-- Bagian Atas: Area Teks dan Tombol -->
+        <div class="text-content" id="mainContent">
+            <h1>Hiburan Tanpa Batas di <span class="brand-text">AmbonTV</span></h1>
+            <p class="subtitle">
+                Streaming TV, film, serial, & olahraga favoritmu. Tayangan eksklusif lokal & internasional. Temukan pengalaman menonton yang #LebihDariHiburan di AmbonTV.
+            </p>
+            <button class="btn-primary" id="btnDownload">Download Aplikasi</button>
+        </div>
+
+        <!-- Bagian Bawah: Area Rak dan Perangkat -->
+        <div class="stage-area">
+
+<div class="devices-wrapper">
+    <div class="device tablet">
+        <img src="https://raw.githubusercontent.com/ambontv/ambontv.github.io/refs/heads/main/img/amqtvbanner.png" alt="Poster Tablet"> 
+    </div>
+    <div class="device phone">
+        <img src="https://raw.githubusercontent.com/ambontv/ambontv.github.io/refs/heads/main/img/amqtvbanner.png" alt="Poster HP">
+    </div>
+</div>
+
+            <div class="shelf"></div>
+        </div>
+
+        <!-- Teks Informasi Paling Bawah -->
+        <div class="footer-text">
+            <span>Tersedia untuk Android & iOS</span>
+            <span class="separator">|</span>
+            <span>Bisa ditonton juga di Smart TV</span>
+        </div>
+
+    </div>
+
+    <!-- Interaktivitas -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const content = document.getElementById('mainContent');
+            setTimeout(() => {
+                content.classList.add('visible');
+            }, 100);
+
+btnDownload.addEventListener('click', () => {
+    // Membuka link aplikasi di tab/jendela baru
+    window.open("https://cdn.jsdelivr.net/gh/ambontv/ambontv.github.io@main/apps/ambontv_apps.apk", "_blank"); 
+    
+    // ATAU, jika Anda ingin link terbuka di halaman yang sama (tidak membuka tab baru), 
+    // hapus baris window.open di atas dan gunakan kode di bawah ini:
+    // window.location.href = "https://play.google.com/store/apps/details?id=com.telkomsel.maxstream";
+});
+        });
+    </script>
+</body>
+</html>
