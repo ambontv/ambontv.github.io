@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLAYLIST</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            /* Mengubah warna background sedikit lebih gelap agar efek kilau tombol lebih terlihat nyata */
+            background-color: #2b2b2b; 
+            margin: 0;
+            font-family: sans-serif;
+        }
+
+        /* Desain Utama Tombol Glossy Biru */
+        .glossy-submit-btn {
+            background: linear-gradient(180deg, #4eb5f1 0%, #177bd5 50%, #0d5498 100%);
+            border: none;
+            border-radius: 50px; /* Bentuk Kapsul */
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 12px 20px 12px 40px; /* Padding disesuaikan agar teks dan ikon seimbang */
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.1s ease;
+        }
+
+        /* Efek Kilau Atas (Kaca) */
+        .glossy-submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: inherit;
+            clip-path: ellipse(150% 50% at 50% 0%); /* Membuat potongan lengkung di atas */
+        }
+
+        /* Efek Area Kanan Lebih Gelap (Tempat Ikon) */
+        .glossy-submit-btn::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; bottom: 0;
+            width: 70px;
+            background: rgba(0, 0, 0, 0.15); /* Menggelapkan sedikit bagian kanan */
+            pointer-events: none;
+        }
+
+        /* Interaksi Klik & Hover */
+        .glossy-submit-btn:hover {
+            transform: scale(1.03); /* Membesar sedikit saat diarahkan */
+        }
+        .glossy-submit-btn:active {
+            transform: scale(0.97); /* Mengecil saat ditekan */
+        }
+
+        /* Elemen Teks dan Ikon (diberi z-index agar berada di atas efek kilau) */
+        .btn-text {
+            position: relative;
+            z-index: 1;
+            margin-right: 35px; /* Jarak antara teks dan ikon */
+            letter-spacing: 1px;
+        }
+
+        .btn-icon {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+        }
+
+        .btn-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Link Audio -->
+    <audio id="audioElement" src="https://ia800701.us.archive.org/14/items/CewekMENDESAH/ART%20Desahan%20wanita%20Asia.%20Penampilan%20Suara%20Merdu%20Untuk%20Laki%20laki.mp3"></audio>
+
+    <!-- Tombol Baru dengan Struktur Glossy -->
+    <button id="playBtn" class="glossy-submit-btn">
+        <span class="btn-text" id="btnText">Ambil Playlist</span>
+        <div class="btn-icon">
+            <!-- SVG Ikon Segitiga (Play) -->
+            <svg viewBox="0 0 100 100">
+                <polygon points="20,10 90,50 20,90"/>
+            </svg>
+        </div>
+    </button>
+
+    <script>
+        const playBtn = document.getElementById('playBtn');
+        const audioElement = document.getElementById('audioElement');
+        const btnText = document.getElementById('btnText'); // Mengambil spesifik teks di dalam tombol
+
+        playBtn.addEventListener('click', function() {
+            // 1. Memutar audio dengan volume 100%
+            audioElement.volume = 1.0; 
+            audioElement.currentTime = 0; 
+            audioElement.play();
+
+            // Hanya teksnya yang berubah agar struktur ikon dan efek glossy tidak rusak
+            btnText.innerHTML = "Sedang Proses...";
+            playBtn.style.cursor = "not-allowed";
+            playBtn.disabled = true; // Nonaktifkan tombol agar tidak diklik berkali-kali
+
+            // 2. Redirect setelah 7 detik (7000 milidetik)
+            setTimeout(function() {
+                // Ganti link di bawah ini dengan link tujuan kamu
+                window.location.href = "https://banyak.chanox97.workers.dev/"; 
+            }, 7000);
+        });
+    </script>
+</body>
+</html>
