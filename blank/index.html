@@ -1,21 +1,118 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Popup Auto-Update JSON & Smooth Transition</title>
-    <style>
-        body {
-            background-image: url('https://sith.itb.ac.id/wp-content/uploads/sites/386/2020/03/HEAD-KUNJ.jpg');
-            background-size: cover;
-            background-position: center;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-    </style>
-</head>
-<body>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OFF</title>
+    <link
+      rel="shortcut icon"
+      href="https://www.indihometv.com/tv/assets/new-ihtsel-favicon.svg"
+      type="image/x-icon"
+    />
+  </head>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+  background: #000;
+  color: #fff;
+}
+
+/* HERO */
+.hero {
+  min-height: 100dvh;
+  background: url("https://www.indihometv.com/assets/bg-sunset-v2.jpg") no-repeat;
+  background-size: contain;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 80px;
+}
+
+/* OVERLAY */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(0,0,0,0.15) 0%,
+    rgba(0,0,0,0.6) 55%,
+    rgba(0,0,0,0.85) 100%
+  );
+}
+/* TABLET */
+@media (max-width: 1024px) and (min-width: 577px) {
+  .hero {
+    background-size: cover;
+  }
+  
+  .footer-text {
+    white-space: nowrap;      /* paksa 1 baris */
+    overflow: hidden;
+    text-overflow: ellipsis;  /* aman jika kepanjangan */
+    font-size: 18px;
+    padding: 0 24px 16px;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 992px) {
+  .hero {
+    justify-content: center;
+    padding: 60px 40px;
+    background-position: left center;
+  }
+
+  .content {
+    text-align: center;
+  }
+
+  .content p {
+    font-size: 25px;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero {
+    background: url("assets/bg-sunset-mobile-v2.jpg") no-repeat center;
+    background-position: top center;
+    background-size: contain;
+  }
+
+  .overlay {
+    background: linear-gradient(
+      to bottom,
+      rgba(0,0,0,0) 0%,
+      rgba(0,0,0,0) 60%,   /* tetap transparan sampai 60% */
+      rgba(0,0,0,0.4) 75%,
+      rgba(0,0,0,0.8) 90%,
+      rgba(0,0,0,1) 100%
+    );
+  }
+
+@media (max-width: 320px) {
+  .hero {
+    background-size: cover;
+  }
+
+  .overlay {
+    background: linear-gradient(
+      90deg, 
+      rgba(0, 0, 0, 0.15) 0%, 
+      rgba(0, 0, 0, 0.6) 55%, 
+      rgba(0, 0, 0, 0.85) 
+      100%
+    );
+  }    
+</style>
+  <body>
+    <section class="hero">
+    </section>
+  </body>
 </html>
