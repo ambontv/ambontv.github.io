@@ -20,6 +20,9 @@
             --brand-blue: #00ABD1;
             --brand-blue-hover: #00c2ed;
             --glow-color: rgba(0, 171, 209, 0.5);
+            --brand-premium: #F5A623;
+            --brand-premium-hover: #FFB732;
+            --glow-premium: rgba(245, 166, 35, 0.5);
         }
 
         /* 
@@ -42,7 +45,6 @@
             height: 100%;
             display: flex;
             flex-direction: column;
-            /* Mengganti rgba merah dengan biru tua untuk efek cahaya di background */
             background: radial-gradient(circle at 50% 35%, rgba(0, 60, 80, 0.9) 0%, var(--bg-color) 70%);
             position: relative;
         }
@@ -55,10 +57,10 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-end; /* Merapatkan teks ke arah bawah (tengah layar) */
+            justify-content: center; /* Mengubah flex-end menjadi center agar teks berada di tengah layar */
             text-align: center;
             padding: 0 5vw;
-            padding-bottom: 3vh; /* Jarak antara tombol dan perangkat */
+            padding-bottom: 5vh; /* Meningkatkan padding bawah agar lebih banyak ruang sebelum perangkat */
             z-index: 10;
             opacity: 0;
             transform: translateY(20px);
@@ -94,13 +96,21 @@
         /* =========================================
            TOMBOL DOWNLOAD
         ========================================= */
+        .button-group {
+            display: flex;
+            gap: 15px; /* Jarak antar tombol */
+            justify-content: center;
+            flex-wrap: wrap; /* Tombol akan turun ke bawah jika layar terlalu sempit */
+            margin-bottom: 2vh; /* Memberikan sedikit ruang di bawah tombol */
+        }
+
+        /* Tombol Free Version */
         .btn-primary {
-            /* Warna gradasi biru disesuaikan */
             background: linear-gradient(135deg, var(--brand-blue), #007a99);
             color: white;
             border: none;
-            padding: clamp(10px, 1.5vh, 18px) clamp(25px, 4vw, 45px);
-            font-size: clamp(0.9rem, 1.5vh + 0.5vw, 1.2rem);
+            padding: clamp(10px, 1.5vh, 18px) clamp(20px, 3vw, 35px);
+            font-size: clamp(0.85rem, 1.2vh + 0.5vw, 1.1rem);
             font-weight: 700;
             border-radius: 35px;
             cursor: pointer;
@@ -113,8 +123,29 @@
         .btn-primary:hover {
             transform: scale(1.05) translateY(-2px);
             background: linear-gradient(135deg, var(--brand-blue-hover), #008eb0);
-            /* Bayangan efek glow biru muda */
             box-shadow: 0 12px 35px rgba(0, 194, 237, 0.7);
+        }
+
+        /* Tombol Premium Version */
+        .btn-premium {
+            background: linear-gradient(135deg, var(--brand-premium), #D08C1B);
+            color: white;
+            border: none;
+            padding: clamp(10px, 1.5vh, 18px) clamp(20px, 3vw, 35px);
+            font-size: clamp(0.85rem, 1.2vh + 0.5vw, 1.1rem);
+            font-weight: 700;
+            border-radius: 35px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px var(--glow-premium);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-premium:hover {
+            transform: scale(1.05) translateY(-2px);
+            background: linear-gradient(135deg, var(--brand-premium-hover), #E5991C);
+            box-shadow: 0 12px 35px rgba(255, 183, 50, 0.7);
         }
 
         /* =========================================
@@ -149,7 +180,7 @@
             display: flex;
             align-items: flex-end;
             justify-content: center;
-            margin-bottom: 6vh; /* Membuat perangkat terlihat diletakkan di atas meja */
+            margin-bottom: 8vh; /* Meningkatkan margin bottom agar perangkat lebih terangkat */
         }
 
         /* Kotak dasar perangkat */
@@ -163,8 +194,6 @@
             justify-content: center;
             text-align: center;
             transition: transform 0.3s ease;
-            
-            /* TAMBAHKAN 2 BARIS INI: */
             overflow: hidden; 
             position: relative;
         }
@@ -190,10 +219,6 @@
             z-index: 10;
         }
 
-        /* 
-           Ukuran perangkat kini berdasarkan vh (Tinggi Layar).
-           Ini mencegah perangkat menjadi terlalu besar hingga menyebabkan scroll.
-        */
         .tablet {
             height: 32vh; 
             max-height: 340px;
@@ -217,14 +242,14 @@
         ========================================= */
         .footer-text {
             position: absolute;
-            bottom: 2vh;
+            bottom: 3vh; /* Meningkatkan jarak bottom agar lebih terangkat */
             width: 100%;
             text-align: center;
             font-size: clamp(0.65rem, 1.2vh + 0.3vw, 0.85rem);
             color: #888;
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 15px; /* Meningkatkan gap agar teks footer lebih renggang */
             z-index: 10;
         }
 
@@ -234,11 +259,14 @@
         @media (max-width: 480px) {
             .footer-text {
                 flex-direction: column;
-                gap: 2px;
-                bottom: 1vh;
+                gap: 5px; /* Menyesuaikan gap pada mobile */
+                bottom: 2vh; /* Menyesuaikan jarak bottom pada mobile */
             }
             .separator {
                 display: none;
+            }
+            .button-group {
+                gap: 10px;
             }
         }
     </style>
@@ -253,9 +281,12 @@
             <p class="subtitle">
                 Streaming TV, film, serial, & olahraga favoritmu. Tayangan eksklusif lokal & internasional. Temukan pengalaman menonton yang #LebihDariHiburan di AmbonTV.
             </p>
-            <button class="btn-primary" id="btnDownload">Download Aplikasi</button>
-        </div>
-
+            
+            <div class="button-group">
+                <button class="btn-primary" id="btnFree"> Download Free Version</button>
+                <button class="btn-premium" id="btnPremium"> Download Premium Version</button>
+            </div>
+            
         <!-- Bagian Bawah: Area Rak dan Perangkat -->
         <div class="stage-area">
 
@@ -267,19 +298,16 @@
                     <img src="https://raw.githubusercontent.com/ambontv/ambontv.github.io/refs/heads/main/img/amqtvbanner.png" alt="Poster HP">
                 </div>
             </div>
-
-            <div class="shelf"></div>
         </div>
-
+        </div>
+            <div class="shelf"></div>
         <!-- Teks Informasi Paling Bawah -->
         <div class="footer-text">
             <span>Tersedia untuk Android & iOS</span>
             <span class="separator">|</span>
             <span>Bisa ditonton juga di Smart TV</span>
         </div>
-
     </div>
-
     <!-- Interaktivitas -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -288,14 +316,23 @@
                 content.classList.add('visible');
             }, 100);
 
-            const btnDownload = document.getElementById('btnDownload');
-            btnDownload.addEventListener('click', () => {
-                // Membuka link aplikasi di tab/jendela baru
+            // Logika untuk Tombol Free
+            const btnFree = document.getElementById('btnFree');
+            btnFree.addEventListener('click', () => {
+                window.open("https://sfile.co/4jea4GCEBWB", "_blank"); 
+            });
+
+            // Logika untuk Tombol Premium
+            const btnPremium = document.getElementById('btnPremium');
+            btnPremium.addEventListener('click', () => {
                 window.open("https://github.com/ambontv/ambontv.github.io/raw/refs/heads/main/apps/ambontvapp.apk", "_blank"); 
-                
+				
+				
                 // ATAU, jika Anda ingin link terbuka di halaman yang sama (tidak membuka tab baru), 
                 // hapus baris window.open di atas dan gunakan kode di bawah ini:
-                // window.location.href = "https://play.google.com/store/apps/details?id=com.telkomsel.maxstream";
+                // window.location.href = "https://play.google.com/store/apps/details?id=com.ambontv.app";
+				
+				
             });
         });
     </script>
