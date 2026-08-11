@@ -2,7 +2,7 @@
 
 <a name="top"></a>
 
-<a href="https://canhabsyi.github.io/"> <img align="right" src="https://cdnlogo.com/logos/p/77/play.svg" width="50px" height="35px"></a>
+<a href="https://canhabsyi.github.io/"> <img align="right" src="https://raw.githubusercontent.com/ambontv/ambontv.github.io/refs/heads/main/img/bulatlogo.png" width="50px" height="35px"></a>
 <h1 align="center"> LIVE TV ONLINE</h1>
 <div align="right"><strong>PlayGO</strong></div>
 
