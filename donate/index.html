@@ -2,45 +2,44 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+  <!-- Menambahkan maximum-scale=1.0 agar layout benar-benar statis (tidak bisa di-zoom tidak sengaja) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>QRIS</title>
   
-  <!-- Memanggil Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="m-0 font-sans bg-gradient-to-b from-[#17295b] to-[#21aaa0] flex justify-center items-center min-h-screen p-4 overflow-hidden">
+<!-- Menggunakan h-[100dvh] agar tinggi layar pas secara dinamis -->
+<body class="m-0 font-sans bg-gradient-to-b from-[#17295b] to-[#21aaa0] flex justify-center items-center h-[100dvh] w-screen p-3 sm:p-5 overflow-hidden box-border">
 
-  <!-- Card Container -->
-  <!-- max-h-[95vh] dan overflow-y-auto membuat card bisa di-scroll di layar landscape tanpa merusak background -->
-  <div class="bg-white rounded-[20px] p-5 sm:p-6 w-full max-w-[400px] shadow-[0_10px_25px_rgba(0,0,0,0.1)] text-center max-h-[95vh] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+  <!-- Card Utama: max-h-full membatasi agar tidak pernah keluar dari layar -->
+  <div class="bg-white rounded-2xl sm:rounded-[20px] p-4 sm:p-6 w-full max-w-[400px] max-h-full flex flex-col justify-between shadow-[0_10px_25px_rgba(0,0,0,0.2)]">
     
-    <!-- Logos -->
-    <div class="flex justify-center items-center gap-4 mb-3 flex-wrap">
-      <img class="h-[25px] sm:h-[30px]" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logo_QRIS.svg/1280px-Logo_QRIS.svg.png" alt="QRIS" />
-      <!-- <img class="h-[25px] sm:h-[30px]" src="https://cdn.jsdelivr.net/gh/ambontv/ambontv.github.io@main/img/amq.png" alt="AmbonTV" /> -->
+    <!-- Bagian Atas: flex-none berarti bagian ini ukurannya tidak akan menyusut -->
+    <div class="flex-none flex justify-center items-center gap-4 mb-1">
+      <img class="h-[20px] sm:h-[25px]" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logo_QRIS.svg/1280px-Logo_QRIS.svg.png" alt="QRIS" />
     </div>
 
-    <!-- Title -->
-    <h2 class="text-[#e10000] my-3 text-xl sm:text-2xl font-bold">Trakteer Ngopi</h2>
+    <h2 class="flex-none text-[#e10000] text-center my-2 text-lg sm:text-xl font-bold">Trakteer Ngopi</h2>
 
-    <!-- QR Code -->
-    <div class="my-4 mx-auto flex justify-center">
-      <img class="w-full max-w-[260px] sm:max-w-[320px] h-auto object-contain" src="https://cdn.jsdelivr.net/gh/ambontv/ambontv.github.io@main/img/qrisambontv.png" alt="QR Code" />
+    <!-- Bagian Tengah (QR Code): flex-1 dan min-h-0 adalah KUNCI agar gambar bisa mengkerut di layar pendek (landscape) -->
+    <div class="flex-1 min-h-0 w-full flex justify-center items-center my-2">
+      <!-- max-h-full dan object-contain memaksa rasio QR tetap kotak tanpa menabrak batas atas-bawah -->
+      <img class="max-h-full max-w-full object-contain" src="https://cdn.jsdelivr.net/gh/ambontv/ambontv.github.io@main/img/qrisambontv.png" alt="QR Code" />
     </div>
 
-    <!-- Accepted Note -->
-    <div class="my-2 text-[#555] text-sm sm:text-[0.95rem]">Kode QR diterima</div>
+    <!-- Bagian Bawah: flex-none memastikan teks & logo platform tetap aman ukurannya -->
+    <div class="flex-none">
+      <div class="text-center text-[#555] text-xs sm:text-[0.95rem] mb-2 mt-1">Kode QR diterima</div>
 
-    <!-- Platforms (E-Wallet Logos) -->
-    <div class="flex justify-center flex-wrap gap-3 sm:gap-4 my-3">
-      <img class="h-[25px] sm:h-[30px] w-auto object-contain" src="https://pix.toco.id/resize/fit:contain,f:webp,q:85/static/icon/payment_hd/shopeepay.webp" alt="ShopeePay" />
-      <img class="h-[25px] sm:h-[30px] w-auto object-contain" src="https://pix.toco.id/resize/fit:contain,f:webp,q:85/static/icon/payment_hd/dana.webp" alt="Dana" />
-      <img class="h-[25px] sm:h-[30px] w-auto object-contain" src="https://pix.toco.id/resize/fit:contain,f:webp,q:85/static/icon/payment_hd/ovo.webp" alt="OVO" />
-      <img class="h-[25px] sm:h-[30px] w-auto object-contain" src="https://bitt.my.id/logo/gopay.png" alt="Gopay" />
+      <div class="flex justify-center flex-wrap gap-2 sm:gap-4 my-2">
+        <img class="h-[20px] sm:h-[28px] w-auto object-contain" src="https://pix.toco.id/resize/fit:contain,f:webp,q:85/static/icon/payment_hd/shopeepay.webp" alt="ShopeePay" />
+        <img class="h-[20px] sm:h-[28px] w-auto object-contain" src="https://pix.toco.id/resize/fit:contain,f:webp,q:85/static/icon/payment_hd/dana.webp" alt="Dana" />
+        <img class="h-[20px] sm:h-[28px] w-auto object-contain" src="https://pix.toco.id/resize/fit:contain,f:webp,q:85/static/icon/payment_hd/ovo.webp" alt="OVO" />
+        <img class="h-[20px] sm:h-[28px] w-auto object-contain" src="https://bitt.my.id/logo/gopay.png" alt="Gopay" />
+      </div>
+
+      <div class="text-center text-[10px] sm:text-xs text-black mt-2">dan platform lain yang mendukung QRIS</div>
     </div>
-
-    <!-- Footer Note -->
-    <div class="text-xs sm:text-sm text-black mt-2">dan platform lain yang mendukung QRIS</div>
 
   </div>
 
